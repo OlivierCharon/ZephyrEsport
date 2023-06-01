@@ -1,15 +1,21 @@
 <template>
-    <h1>Our Esport teams</h1>
-    <div v-for="game in games" :key="game">
-        {{ game }}
-        <img src="/assets/games/dofus.png" alt="">
-        <img :src="`@/assets/games/${game}.png`" alt="">
-    </div>
-
+        <div class="mx-32">
+            <GameGames />
+            <NuxtPage/>
+            
+            <!-- <div v-for="game in games" :key="game.name" class="my-16 w-full px-52 space-y-32" :class="[currentGame == game.name?'flex flex-col':'hidden']">
+                <GameDescription :game="game"/>
+                <PlayersList :players="game.players"/>
+            </div> -->
+        </div>
 </template>
 
 <script setup>
-import {ref} from 'vue'
-
-const games = ['pu','tm','fifa','tm','dofus']
+    const route = useRoute()
+    useHead({
+        title: `Zephyr Esport`
+    })
+    definePageMeta({
+        layout: 'admin'
+    })
 </script>

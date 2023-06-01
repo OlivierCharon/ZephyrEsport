@@ -1,7 +1,5 @@
 <template>
-  <div class="bg-zpr_purple-800">
-    <TemplateNavBar />
+  <NuxtLayout>
     <NuxtPage />
-    <LazyTemplateFooterBar />
-  </div>
+  </NuxtLayout>
 </template>

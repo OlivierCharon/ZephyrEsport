@@ -39,19 +39,19 @@
             <div class="items-center hidden justify-between w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
                 <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-zpr_pink dark:bg-zpr_purple-900 dark:border-gray-700">
                     <li>
-                        <NuxtLink to="/" class="block py-2 pl-3 uppercase mx-2 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-zpr_pink-900" aria-current="page">Accueil</NuxtLink>
+                        <NuxtLink to="/" class="block py-2 pl-3 uppercase mx-2 pr-4 text-gray-900 rounded md:p-0 dark:text-white dark:hover:text-zpr_pink-second  dark:border-gray-700">Accueil</NuxtLink>
                     </li>
                     <li>
                         <NuxtLink to="/esport" class="block py-2 pl-3 uppercase mx-2 pr-4 text-gray-900 rounded md:p-0 dark:text-white dark:hover:text-zpr_pink-second  dark:border-gray-700">Esport</NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink to="/community" class="block py-2 pl-3 uppercase mx-2 pr-4 text-gray-900 rounded md:p-0 dark:text-white dark:hover:text-zpr_pink-second  dark:border-gray-700">Communauté</NuxtLink>
+                        <NuxtLink to="/community" class="block py-2 pl-3 uppercase mx-2 pr-4 text-gray-900 rounded md:p-0 dark:text-white dark:hover:text-zpr_pink-second  dark:border-gray-700" >Communauté</NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink to="/organisation" class="block py-2 pl-3 uppercase mx-2 pr-4 text-gray-900 rounded md:p-0 dark:text-white dark:hover:text-zpr_pink-second  dark:border-gray-700">Association</NuxtLink>
+                        <NuxtLink to="/organisation" class="block py-2 pl-3 uppercase mx-2 pr-4 text-gray-900 rounded md:p-0 dark:text-white dark:hover:text-zpr_pink-second  dark:border-gray-700" >Association</NuxtLink>
                     </li>
                     <li>
-                        <NuxtLink to="/contact" class="block py-2 pl-3 uppercase mx-2 pr-4 text-gray-900 rounded md:p-0 dark:text-white dark:hover:text-zpr_pink-second  dark:border-gray-700">Nous contacter</NuxtLink>
+                        <NuxtLink to="/contact" class="block py-2 pl-3 uppercase mx-2 pr-4 text-gray-900 rounded md:p-0 dark:text-white dark:hover:text-zpr_pink-second  dark:border-gray-700" >Nous contacter</NuxtLink>
                     </li>
                 </ul>
             </div>
@@ -67,5 +67,8 @@ let hiddenDropdown = ref(true)
 </script>
 
 <style>
-
+    nav ul .router-link-exact-active{
+        color: #E2267B;
+        text-shadow: 1px 1px 2px #0e0e0e55;
+    }
 </style>

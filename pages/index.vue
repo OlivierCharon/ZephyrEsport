@@ -4,7 +4,7 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
-
-let hiddenDropdown = ref(true)
+    useHead({
+        title: `Zephyr Esport`
+    })
 </script>
