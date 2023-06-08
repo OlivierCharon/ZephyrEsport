@@ -5,7 +5,7 @@
     <nav class="bg-zpr_pink-900 border-zpr_purple-900 dark:bg-zpr_purple-900 shadow-md sticky w-full border-b">
         <div class="flex flex-wrap items-center justify-between mx-12 p-5">
             <NuxtLink to="/" class="flex items-center">
-                <img src="@/assets/img/logo_short.png" class="h-14 mr-3" alt="Flowbite Logo" />
+                <img src="/img/logo_short.png" class="h-14 mr-3" alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Zephyr Esport</span>
             </NuxtLink>
             <div class="flex items-center md:order-2">

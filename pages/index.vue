@@ -1,5 +1,5 @@
 <template>
-    <img src="@/assets/img/banner.png" alt="" class="w-full">
+    <img src="/img/banner.png" alt="" class="w-full">
     <NewsArticles/>
 </template>
 

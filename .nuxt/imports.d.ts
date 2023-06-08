@@ -5,4 +5,5 @@ export { withCtx, withDirectives, withKeys, withMemo, withModifiers, withScopeId
 export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerSeoMeta, useServerHeadSafe } from '@unhead/vue';
 export { useGames } from '../composables/useGames';
 export { useHelpers } from '../composables/useHelpers';
+export { useImage } from '../node_modules/@nuxt/image-edge/dist/runtime/composables';
 export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';
