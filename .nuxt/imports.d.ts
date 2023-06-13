@@ -6,4 +6,5 @@ export { injectHead, useHead, useSeoMeta, useHeadSafe, useServerHead, useServerS
 export { useGames } from '../composables/useGames';
 export { useHelpers } from '../composables/useHelpers';
 export { useImage } from '../node_modules/@nuxt/image-edge/dist/runtime/composables';
+export { useDayjs } from '../node_modules/dayjs-nuxt/dist/runtime/composables/dayjs';
 export { definePageMeta } from '../node_modules/nuxt/dist/pages/runtime/composables';

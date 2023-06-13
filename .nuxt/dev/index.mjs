@@ -4,7 +4,6 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
-import { provider, isWindows } from 'file:///home/ochar/Perso/ZephyrEsport/node_modules/std-env/dist/index.mjs';
 import { defineEventHandler, handleCacheHeaders, createEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, setResponseStatus, getRequestHeader, setResponseHeader, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, fetchWithEvent, lazyEventHandler, getQuery as getQuery$1, createError } from 'file:///home/ochar/Perso/ZephyrEsport/node_modules/h3/dist/index.mjs';
 import { createRenderer } from 'file:///home/ochar/Perso/ZephyrEsport/node_modules/vue-bundle-renderer/dist/runtime.mjs';
 import { stringify, uneval } from 'file:///home/ochar/Perso/ZephyrEsport/node_modules/devalue/index.js';
@@ -21,6 +20,89 @@ import { parseURL, withoutBase, joinURL, getQuery, withQuery } from 'file:///hom
 import { createStorage, prefixStorage } from 'file:///home/ochar/Perso/ZephyrEsport/node_modules/unstorage/dist/index.mjs';
 import unstorage_47drivers_47fs from 'file:///home/ochar/Perso/ZephyrEsport/node_modules/unstorage/drivers/fs.mjs';
 import { toRouteMatcher, createRouter } from 'file:///home/ochar/Perso/ZephyrEsport/node_modules/radix3/dist/index.mjs';
+
+const providers = [
+  ["APPVEYOR"],
+  ["AZURE_PIPELINES", "SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"],
+  ["AZURE_STATIC", "INPUT_AZURE_STATIC_WEB_APPS_API_TOKEN"],
+  ["APPCIRCLE", "AC_APPCIRCLE"],
+  ["BAMBOO", "bamboo_planKey"],
+  ["BITBUCKET", "BITBUCKET_COMMIT"],
+  ["BITRISE", "BITRISE_IO"],
+  ["BUDDY", "BUDDY_WORKSPACE_ID"],
+  ["BUILDKITE"],
+  ["CIRCLE", "CIRCLECI"],
+  ["CIRRUS", "CIRRUS_CI"],
+  ["CLOUDFLARE_PAGES", "CF_PAGES", { ci: true }],
+  ["CODEBUILD", "CODEBUILD_BUILD_ARN"],
+  ["CODEFRESH", "CF_BUILD_ID"],
+  ["DRONE"],
+  ["DRONE", "DRONE_BUILD_EVENT"],
+  ["DSARI"],
+  ["GITHUB_ACTIONS"],
+  ["GITLAB", "GITLAB_CI"],
+  ["GITLAB", "CI_MERGE_REQUEST_ID"],
+  ["GOCD", "GO_PIPELINE_LABEL"],
+  ["LAYERCI"],
+  ["HUDSON", "HUDSON_URL"],
+  ["JENKINS", "JENKINS_URL"],
+  ["MAGNUM"],
+  ["NETLIFY"],
+  ["NETLIFY", "NETLIFY_LOCAL", { ci: false }],
+  ["NEVERCODE"],
+  ["RENDER"],
+  ["SAIL", "SAILCI"],
+  ["SEMAPHORE"],
+  ["SCREWDRIVER"],
+  ["SHIPPABLE"],
+  ["SOLANO", "TDDIUM"],
+  ["STRIDER"],
+  ["TEAMCITY", "TEAMCITY_VERSION"],
+  ["TRAVIS"],
+  ["VERCEL", "NOW_BUILDER"],
+  ["APPCENTER", "APPCENTER_BUILD_ID"],
+  ["CODESANDBOX", "CODESANDBOX_SSE", { ci: false }],
+  ["STACKBLITZ"],
+  ["STORMKIT"],
+  ["CLEAVR"]
+];
+function detectProvider(env) {
+  for (const provider of providers) {
+    const envName = provider[1] || provider[0];
+    if (env[envName]) {
+      return {
+        name: provider[0].toLowerCase(),
+        ...provider[2]
+      };
+    }
+  }
+  if (env.SHELL && env.SHELL === "/bin/jsh") {
+    return {
+      name: "stackblitz",
+      ci: false
+    };
+  }
+  return {
+    name: "",
+    ci: false
+  };
+}
+
+const processShim = typeof process !== "undefined" ? process : {};
+const envShim = processShim.env || {};
+const providerInfo = detectProvider(envShim);
+const nodeENV = typeof process !== "undefined" && process.env && "development" || "";
+const platform = processShim.platform;
+const provider = providerInfo.name;
+const isCI = toBoolean(envShim.CI) || providerInfo.ci !== false;
+const hasTTY = toBoolean(processShim.stdout && processShim.stdout.isTTY);
+toBoolean(envShim.DEBUG);
+const isTest = nodeENV === "test" || toBoolean(envShim.TEST);
+toBoolean(envShim.MINIMAL) || isCI || isTest || !hasTTY;
+const isWindows = /^win/i.test(platform);
+function toBoolean(val) {
+  return val ? val !== "false" : false;
+}
 
 const inlineAppConfig = {};
 
@@ -43,7 +125,7 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "api_ip": "http://127.0.0.1:8000/api"
+    "API_BASE_URL": "http://127.0.0.1:8000/api"
   }
 };
 const ENV_PREFIX = "NITRO_";
@@ -660,8 +742,8 @@ const _template = (messages) => _render({ messages: { ..._messages, ...messages 
 const template = _template;
 
 const errorDev = /*#__PURE__*/Object.freeze({
-      __proto__: null,
-      template: template
+  __proto__: null,
+  template: template
 });
 
 const appRootId = "__nuxt";
@@ -898,21 +980,21 @@ function splitPayload(ssrContext) {
 }
 
 const renderer$1 = /*#__PURE__*/Object.freeze({
-      __proto__: null,
-      default: renderer
+  __proto__: null,
+  default: renderer
 });
 
 const _virtual__headStatic = {"headTags":"<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">","bodyTags":"","bodyTagsOpen":"","htmlAttrs":"","bodyAttrs":""};
 
 const _virtual__headStatic$1 = /*#__PURE__*/Object.freeze({
-      __proto__: null,
-      default: _virtual__headStatic
+  __proto__: null,
+  default: _virtual__headStatic
 });
 
 const styles = {};
 
 const styles$1 = /*#__PURE__*/Object.freeze({
-      __proto__: null,
-      default: styles
+  __proto__: null,
+  default: styles
 });
 //# sourceMappingURL=index.mjs.map
