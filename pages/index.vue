@@ -1,10 +1,10 @@
 <template>
-    <img src="/img/banner.png" alt="" class="w-full">
-    <NewsArticles/>
+  <img src="/img/banner.png" alt="" class="w-full">
+  <NewsArticles />
 </template>
 
 <script setup>
-    useHead({
-        title: `Zephyr Esport`
-    })
+useHead({
+  title: 'Zephyr Esport'
+})
 </script>

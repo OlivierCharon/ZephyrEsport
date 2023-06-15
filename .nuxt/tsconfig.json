@@ -68,6 +68,9 @@
       "#image/*": [
         "node_modules/@nuxt/image-edge/dist/runtime/*"
       ],
+      "pinia": [
+        "node_modules/pinia/dist/pinia"
+      ],
       "#vue-router": [
         ".nuxt/vue-router"
       ],

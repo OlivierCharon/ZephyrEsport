@@ -13,9 +13,15 @@
     "nuxt": "^3.5.1"
   },
   "dependencies": {
-    "@nuxt/image": "^1.0.0-rc.1",
     "@nuxt/image-edge": "^1.0.0-rc.1-28103694.7ca114e",
     "@nuxtjs/tailwindcss": "^6.7.0",
-    "dayjs-nuxt": "^1.1.2"
-  }
+    "@pinia/nuxt": "^0.4.11",
+    "dayjs-nuxt": "^1.1.2",
+    "pinia": "^2.1.4"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:OlivierCharon/ZephyrEsport.git",
+  "author": "Olivier CHARON <olivier.charon@outlook.fr>",
+  "license": "MIT"
 }

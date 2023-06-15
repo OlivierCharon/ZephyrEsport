@@ -12,6 +12,7 @@
 /// <reference types="dayjs/plugin/relativeTime" />
 /// <reference types="dayjs/plugin/utc" />
 /// <reference types="dayjs/plugin/timezone" />
+/// <reference types="@pinia/nuxt" />
 /// <reference types="vue-router" />
 /// <reference path="types/middleware.d.ts" />
 /// <reference path="types/layouts.d.ts" />

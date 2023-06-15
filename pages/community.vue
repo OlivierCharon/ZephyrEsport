@@ -1,9 +1,9 @@
 <template>
-    <h1>Communauté</h1>
+  <h1>Communauté</h1>
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 
-let hiddenDropdown = ref(true)
+const hiddenDropdown = ref(true)
 </script>
