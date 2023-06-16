@@ -1,31 +1,40 @@
 export const useArticlesStore = defineStore("articlesStore", () => {
-    const articlesList = ref(null);
+    const articlesList = ref();
 
     // function addValueToFilterList(value: Object) {
     //     articlesList.value.push(value);
     // }
 
-    async function fetchArticles() {
+    // async function fetchArticles() {
+    //     try {
+    //         const conf = useRuntimeConfig();
+    //         const { data: articles } = await useFetch(
+    //             `${conf.public.API_BASE_URL}/posts`
+    //         );
+
+    //         return (articlesList.value = articles);
+    //     } catch (error) {
+    //         alert(error);
+    //         console.log(error);
+    //     }
+    // }
+
+    const fetchArticles = async () => {
         try {
             const conf = useRuntimeConfig();
-            const { data: articles } = await useFetch(
+            const { data, pending, error, refresh } = await useFetch(
                 `${conf.public.API_BASE_URL}/posts`,
                 {
-                    transform: (articles) => {
-                        return articles.map((article) => ({
-                            title: article.title,
-                            text: article.text,
-                        }));
-                    },
+                    pick: ["data"],
                 }
             );
-            //   const data = await axios.get('https://jsonplaceholder.typicode.com/users')
-            console.log(articles);
-            articlesList.value = articles;
+            articlesList.value = data;
+            return articlesList.value;
         } catch (error) {
             alert(error);
             console.log(error);
         }
-    }
+    };
+
     return { articlesList, fetchArticles };
 });

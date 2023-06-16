@@ -2,12 +2,13 @@
     <div
         class="m-[1.5rem] grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
     >
+        {{ articlesList }}
         <NewsArticle
-            v-for="article in articles"
+            v-for="article in articlesList"
             :key="article.id"
             :article="article.id"
         />
-        <div v-for="article in articles" :key="article">
+        <div v-for="article in articlesList" :key="article">
             {{ article }}
         </div>
         <input type="text" name="new-article" id="" v-model="newArticle" />
@@ -26,7 +27,7 @@
 
 const articlesStore = useArticlesStore();
 const { fetchArticles } = articlesStore;
-const { articles } = storeToRefs(articlesStore);
+const { articlesList } = storeToRefs(articlesStore);
 const newArticle = ref(null);
 
 // function createArticle() {
@@ -36,6 +37,7 @@ const newArticle = ref(null);
 
 onMounted(() => {
     fetchArticles();
+    re;
 });
 </script>
 
