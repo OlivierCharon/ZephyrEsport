@@ -8,36 +8,18 @@
             :key="article.id"
             :article="article.id"
         />
-        <div v-for="article in articlesList" :key="article">
+        <p v-for="article in articlesList" :key="article">
             {{ article }}
-        </div>
-        <input type="text" name="new-article" id="" v-model="newArticle" />
-        <button @click="createArticle()">Valider</button>
+        </p>
     </div>
 </template>
 
 <script setup>
-// const conf = useRuntimeConfig();
-// const {
-//     data: articles,
-//     pending,
-//     error,
-//     refresh,
-// } = await useFetch(`${conf.public.API_BASE_URL}/posts`);
-
 const articlesStore = useArticlesStore();
-const { fetchArticles } = articlesStore;
 const { articlesList } = storeToRefs(articlesStore);
-const newArticle = ref(null);
-
-// function createArticle() {
-//     addValueToFilterList(newArticle.value);
-//     newArticle.value = null;
-// }
-
+const { fetchArticles } = articlesStore;
 onMounted(() => {
     fetchArticles();
-    re;
 });
 </script>
 

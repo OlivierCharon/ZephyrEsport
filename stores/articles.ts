@@ -1,5 +1,5 @@
 export const useArticlesStore = defineStore("articlesStore", () => {
-    const articlesList = ref();
+    const articlesList = ref({});
 
     // function addValueToFilterList(value: Object) {
     //     articlesList.value.push(value);
@@ -22,14 +22,27 @@ export const useArticlesStore = defineStore("articlesStore", () => {
     const fetchArticles = async () => {
         try {
             const conf = useRuntimeConfig();
-            const { data, pending, error, refresh } = await useFetch(
-                `${conf.public.API_BASE_URL}/posts`,
-                {
-                    pick: ["data"],
-                }
-            );
-            articlesList.value = data;
-            return articlesList.value;
+            const {
+                data: articles,
+                pending,
+                error,
+                refresh,
+            } = await useFetch(`${conf.public.API_BASE_URL}/posts`, {
+                transform: (response) => {
+                    const res = [];
+
+                    for (const id in response.data) {
+                        console.log(response.data[id]);
+                        res.push({
+                            id: response.data[id].id,
+                            title: response.data[id].title,
+                            text: response.data[id].txt,
+                        });
+                    }
+                    return res;
+                },
+            });
+            articlesList.value = articles.value;
         } catch (error) {
             alert(error);
             console.log(error);
