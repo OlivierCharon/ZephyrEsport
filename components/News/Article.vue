@@ -34,28 +34,29 @@
 </template>
 
 <script setup>
-const conf = useRuntimeConfig();
-const dayjs = useDayjs();
-
+// PROPS
 const props = defineProps({
-    article: Number,
+    articleId: Number,
 });
 
-const {
-    data: currentArticle,
-    pending,
-    error,
-    refresh,
-} = await useFetch(`${conf.public.API_BASE_URL}/post/${props.article}`);
-const imgSrc = ref(`/${currentArticle.value.data.img ?? "zephyr_logo.png"}`);
+// ARTICLE DATA
+const articlesStore = useArticlesStore();
+const { getArticle } = articlesStore;
+const articleData = ref(getArticle(articleId));
+
+// IMG SRC DATA
 const defaultImgSrc = "/zephyr_logo.png";
+const imgSrc = ref(`${articleData.img} ?? ${defaultImgSrc}}`);
 
 const imgFallback = () => {
     imgSrc.value = defaultImgSrc;
 };
 
+// LINK
 const link = ref(`/article/news/details/${currentArticle.id}`);
 
+// DATES
+const dayjs = useDayjs();
 const articleDate = dayjs(currentArticle.value.data.created_at).format(
     "DD MMM YYYY"
 );

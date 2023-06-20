@@ -8,19 +8,16 @@
             :key="article.id"
             :article="article.id"
         />
-        <p v-for="article in articlesList" :key="article">
-            {{ article }}
-        </p>
     </div>
 </template>
 
 <script setup>
 const articlesStore = useArticlesStore();
 const { articlesList } = storeToRefs(articlesStore);
-const { fetchArticles } = articlesStore;
-onMounted(() => {
-    fetchArticles();
-});
+// const { fetchArticles } = articlesStore;
+// onMounted(() => {
+//     fetchArticles();
+// });
 </script>
 
 <style>
