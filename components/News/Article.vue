@@ -23,12 +23,10 @@
             <h3
                 class="text-xl font-semibold text-zpr_purple-second group-hover:text-zpr_purple-500 uppercase group-focus:text-zpr_purple-500"
             >
-                {{ currentArticle.data.title }}
+                {{ articleData.title }}
             </h3>
             <span class="text-xs dark:text-gray-400">{{ articleDate }}</span>
-            <p class="text-gray-100">
-                {{ currentArticle.data.txt }}
-            </p>
+            <p class="text-gray-100">{{ articleData.txt }}</p>
         </div>
     </nuxt-link>
 </template>
@@ -41,8 +39,13 @@ const props = defineProps({
 
 // ARTICLE DATA
 const articlesStore = useArticlesStore();
-const { getArticle } = articlesStore;
-const articleData = ref(getArticle(articleId));
+const { getArticle, articlesList } = articlesStore;
+// const articleData = ref(getArticle(props.articleId));
+const articleData = ref(null);
+
+articleData.value = articlesList.find((article) => {
+    return article.id === props.articleId;
+});
 
 // IMG SRC DATA
 const defaultImgSrc = "/zephyr_logo.png";
@@ -53,13 +56,11 @@ const imgFallback = () => {
 };
 
 // LINK
-const link = ref(`/article/news/details/${currentArticle.id}`);
+const link = ref(`/article/news/details/${articleData.value.id}`);
 
 // DATES
 const dayjs = useDayjs();
-const articleDate = dayjs(currentArticle.value.data.created_at).format(
-    "DD MMM YYYY"
-);
+const articleDate = dayjs(articleData.value.created_at).format("DD MMM YYYY");
 </script>
 
 <style>

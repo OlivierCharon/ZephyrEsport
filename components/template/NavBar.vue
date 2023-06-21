@@ -77,6 +77,7 @@
                 </nuxt-link>
             </div>
             <div
+                v-if="!connected"
                 class="space-x-[1vw] h-fit p-4 lg:inline-block text-center text-lg"
                 :class="{ hidden: !showMobileMenu }"
             >
@@ -93,12 +94,33 @@
                     Créer un compte
                 </nuxt-link>
             </div>
+            <div
+                v-else
+                class="space-x-[1vw] h-fit p-4 lg:inline-block text-center text-lg"
+                :class="{ hidden: !showMobileMenu }"
+            >
+                <nuxt-link
+                    v-if="admin"
+                    to="/admin"
+                    class="inline-block text-sm px-4 py-2 leading-none border rounded whitespace-nowrap text-zpr_purple-second border-white hover:text-zpr_pink-second mt-4 lg:mt-0 uppercase w-36"
+                >
+                    Espace admin
+                </nuxt-link>
+                <nuxt-link
+                    to="/sign-in"
+                    class="inline-block text-sm py-2 leading-none border rounded whitespace-nowrap text-zpr_pink-900 border-white hover:border-transparent hover:text-zpr_purple-900 bg-white mt-4 lg:mt-0 uppercase w-36"
+                >
+                    Espace membre
+                </nuxt-link>
+            </div>
         </nav>
     </header>
 </template>
 
 <script setup>
 const showMobileMenu = ref(false);
+const connected = ref(true);
+const admin = ref(true);
 </script>
 
 <style scoped>
