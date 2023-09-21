@@ -17,5 +17,4 @@ logs
 .env.*
 !.env.example
 
-# Nuxt config
-nuxt.config.ts
+.gitsecret/keys/random_seed
