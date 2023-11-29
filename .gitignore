@@ -18,3 +18,4 @@ logs
 !.env.example
 
 .gitsecret/keys/random_seed
+install_nvm.sh

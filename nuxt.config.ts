@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     modules: [
         "@nuxtjs/tailwindcss",
-        "@nuxt/image-edge",
+        "@nuxt/image",
         "dayjs-nuxt",
         [
             "@pinia/nuxt",
