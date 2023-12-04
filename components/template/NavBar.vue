@@ -82,13 +82,13 @@
                 :class="{ hidden: !showMobileMenu }"
             >
                 <nuxt-link
-                    to="/login"
+                    to="/account/login"
                     class="inline-block text-sm px-4 py-2 leading-none border rounded whitespace-nowrap text-zpr_purple-second border-white hover:text-zpr_pink-second mt-4 lg:mt-0 uppercase w-36"
                 >
                     Se connecter
                 </nuxt-link>
                 <nuxt-link
-                    to="/sign-in"
+                    to="/account/signin"
                     class="inline-block text-sm py-2 leading-none border rounded whitespace-nowrap text-zpr_pink-900 border-white hover:border-transparent hover:text-zpr_purple-900 bg-white mt-4 lg:mt-0 uppercase w-36"
                 >
                     Créer un compte
@@ -119,7 +119,7 @@
 
 <script setup>
 const showMobileMenu = ref(false);
-const connected = ref(true);
+const connected = ref(false);
 const admin = ref(true);
 </script>
 

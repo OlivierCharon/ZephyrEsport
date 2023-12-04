@@ -1,12 +1,10 @@
 <template>
   <div class="mx-32">
+    <h1 class="text-center uppercase m-12 text-3xl font-bold">
+      Nos équipes
+    </h1>
     <GameGames />
     <NuxtPage />
-
-    <!-- <div v-for="game in games" :key="game.name" class="my-16 w-full px-52 space-y-32" :class="[currentGame == game.name?'flex flex-col':'hidden']">
-                <GameDescription :game="game"/>
-                <PlayersList :players="game.players"/>
-            </div> -->
   </div>
 </template>
 
@@ -15,7 +13,5 @@ const route = useRoute()
 useHead({
   title: 'Zephyr Esport'
 })
-definePageMeta({
-  layout: 'admin'
-})
+
 </script>

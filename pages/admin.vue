@@ -11,6 +11,9 @@ const { fetchArticles } = articlesStore;
 onMounted(() => {
     fetchArticles("all");
 });
+definePageMeta({
+    layout: 'admin'
+})
 </script>
 
 <style>

@@ -1,24 +1,23 @@
 <template>
   <div>
-    <h1 class="text-center uppercase m-12 text-3xl font-bold">
-      Our Esport teams
-    </h1>
     <div class="flex flex-row items-center justify-around">
       <img
         v-for="game in games"
         :key="game.name"
         class="w-52 transition duration-150 ease-out"
-        :class="currentGame==game.name?'':'opacity-50'"
+        :class="currentGame.name==game.name?'':'opacity-50'"
         :src="`/img/games/${game.img}.png`"
         alt=""
         @click="changeGame(game.name)"
       >
     </div>
+    <GameDetails :game="currentGame"/>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+const route = useRoute()
 
 const games = ref([
   {
@@ -106,14 +105,23 @@ const players = ref([
     img: 'player2'
   }
 ])
-const currentGame = ref(null)
+
+const currentGame = ref(games.value[0])
+
+onMounted(()=>{
+  useHead({
+    title: `Zephyr Esport - ${titleCase(currentGame.value.name)}`
+  })
+})
+
 
 const { titleCase } = useHelpers()
 
-function changeGame (game) {
-  this.currentGame = game
+
+function changeGame (choice) {
+  this.currentGame = games.value.filter((game)=> game.name === choice )[0]
   useHead({
-    title: `Zephyr Esport - ${titleCase(game)}`
+    title: `Zephyr Esport - ${titleCase(choice)}`
   })
 }
 </script>
