@@ -5,9 +5,20 @@ export default defineNuxtPlugin(nuxtApp => {
     nuxtApp.vueApp.use(Toast, {
         hideProgressBar : true,
         transition: "Vue-Toastification__fade",
-        showCloseButtonOnHover: true,
-        timeout: 2000,
+        maxToasts: 20,
+        newestOnTop: true,
         position: "bottom-center",
+        timeout: 5000,
+        closeOnClick: true,
+        pauseOnFocusLoss: true,
+        pauseOnHover: true,
+        showCloseButtonOnHover: false,
+        hideProgressBar: true,
+        closeButton: "button",
+        icon: true,
+        rtl: false,
+        toastClassName: 'custom',
+        bodyClassName: ['custom'],
         filterToasts: toasts => {
             // Keep track of existing types
             const types = {};

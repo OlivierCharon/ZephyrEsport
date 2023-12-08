@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* etc */
+.Vue-Toastification__toast.custom {
+    font-weight: bold;
+    /* text-align: center; */
+}

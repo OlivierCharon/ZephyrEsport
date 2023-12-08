@@ -4,6 +4,7 @@ export default defineNuxtConfig({
         "@nuxtjs/tailwindcss",
         "@nuxt/image",
         "dayjs-nuxt",
+        "nuxt-lodash",
         [
             "@pinia/nuxt",
             {
@@ -11,6 +12,17 @@ export default defineNuxtConfig({
             },
         ],
     ],
+    lodash: {
+        prefix: "_",
+        prefixSkip: ["string"],
+        upperAfterPrefix: false,
+        exclude: ["map"],
+        alias: [
+          ["camelCase", "stringToCamelCase"], // => stringToCamelCase
+          ["kebabCase", "stringToKebab"], // => stringToKebab
+          ["isDate", "isLodashDate"], // => _isLodashDate
+        ],
+    },
     css: ["~/assets/css/main.css"],
     postcss: {
         plugins: {
@@ -41,5 +53,5 @@ export default defineNuxtConfig({
     build: {
         // vue-toastification - old commonjs module
         transpile: ["vue-toastification"],
-    },
+    }
 });

@@ -81,18 +81,13 @@
                 class="space-x-[1vw] h-fit p-4 lg:inline-block text-center text-lg"
                 :class="{ hidden: !showMobileMenu }"
             >
-                <nuxt-link
-                    to="/account/login"
-                    class="inline-block text-sm px-4 py-2 leading-none border rounded whitespace-nowrap text-zpr_purple-second border-white hover:text-zpr_pink-second mt-4 lg:mt-0 uppercase w-36"
-                >
+                <button @click="popup = 'login'" class="inline-block text-sm px-4 py-2 leading-none border rounded whitespace-nowrap text-zpr_purple-second border-white hover:text-zpr_pink-second mt-4 lg:mt-0 uppercase w-36">
                     Se connecter
-                </nuxt-link>
-                <nuxt-link
-                    to="/account/signin"
-                    class="inline-block text-sm py-2 leading-none border rounded whitespace-nowrap text-zpr_pink-900 border-white hover:border-transparent hover:text-zpr_purple-900 bg-white mt-4 lg:mt-0 uppercase w-36"
-                >
+                </button>
+                
+                <button @click="popup = 'signin'" class="inline-block text-sm py-2 leading-none border rounded whitespace-nowrap text-zpr_pink-900 border-white hover:border-transparent hover:text-zpr_purple-900 bg-white mt-4 lg:mt-0 uppercase w-36">
                     Créer un compte
-                </nuxt-link>
+                </button>
             </div>
             <div
                 v-else
@@ -115,17 +110,25 @@
             </div>
         </nav>
     </header>
+    <teleport to='body'>
+        <LoginModal v-if="popup === 'login'" @close-modal="popup = null" class="fade-transition duration-700" />
+        <SigninModal v-if="popup === 'signin'" @close-modal="popup = null" />
+    </teleport>
+    
 </template>
 
 <script setup>
-const showMobileMenu = ref(false);
-const connected = ref(false);
-const admin = ref(true);
+    import LoginModal from './LoginModal.vue';
+    import SigninModal from './SigninModal.vue';
+    const showMobileMenu = ref(false);
+    const connected = ref(false);
+    const admin = ref(true);
+    const popup = ref(null);
 </script>
 
 <style scoped>
-nav .main-menu .router-link-exact-active {
-    color: #e2267b;
-    text-shadow: 1px 1px 2px #0e0e0e55;
-}
+    nav .main-menu .router-link-exact-active {
+        color: #e2267b;
+        text-shadow: 1px 1px 2px #0e0e0e55;
+    }
 </style>
