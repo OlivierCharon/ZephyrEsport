@@ -4,14 +4,15 @@
             <span class="text-gray-400 text-3xl ml-auto mr-2 font-bold leading-none hover:text-gray-900 focus:text-gray-900 hover:cursor-pointer focus:cursor-pointer fade-transition duration-150" @click="$emit('closeModal')">&times;</span>
             <form class="w-full max-w-sm p-2 relative mb-5">
                 <h2 class="block text-gray-700 text-lg font-bold mb-8 uppercase">Créer un compte</h2>
-                <div class="md:flex md:items-center mb-6 flex space-x-6 flex space-x-6">
+                <div class="md:flex md:items-center mb-6 flex space-x-6">
                     <div class="md:w-1/3">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0" for="inline-email">
                             Adresse email
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-email" type="email" v-model="form.name">
+                        <input required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-email" type="email" v-model="form.email">
+                        <p class="text-red-600 text-left text-xs" v-if="error.email">{{ error.email }}</p>
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6 flex space-x-6">
@@ -21,7 +22,8 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" v-model="form.name">
+                        <input required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" v-model="form.name">
+                        <p class="text-red-600 text-left text-xs" v-if="error.name">{{ error.name }}</p>
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6 flex space-x-6">
@@ -31,7 +33,19 @@
                         </label>
                     </div>
                     <div class="md:w-2/3">
-                        <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="password" v-model="form.password">
+                        <input required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="password" v-model="form.password">
+                        <p class="text-red-600 text-left text-xs" v-if="error.password">{{ error.password }}</p>
+                    </div>
+                </div>
+                <div class="md:flex md:items-center mb-6 flex space-x-6">
+                    <div class="md:w-1/3">
+                        <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0" for="inline-pwd-check">
+                            Confirmer le mot de passe
+                        </label>
+                    </div>
+                    <div class="md:w-2/3">
+                        <input required class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-pwdCheck" type="pwdCheck" v-model="form.pwdCheck">
+                        <p class="text-red-600 text-left text-xs" v-if="error.pwdCheck">{{ error.pwdCheck }}</p>
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6 flex space-x-6  md:justify-center">
@@ -55,24 +69,33 @@
 <script setup>
 import { useToast } from "vue-toastification";
 import _ from 'lodash'
-
-// const modal = ref(null)
-// onMounted(()=>{
-    //     modal.value.focus()
-    // })
     
     const runtimeConfig = useRuntimeConfig()
-    const errors = ref(null)
     const toast = useToast()
     
-    const form = {
-        email: null,
-        name: null,
-        password: null
-    }
+    const form = ref({
+        email: '',
+        name: '',
+        password: '',        
+        pwdCheck: '',
+    })
     
+    const error = ref({
+        email: '',
+        name: '',
+        password: '',        
+        pwdCheck: '',
+    })
+
     const createUser = async () => {
         // console.log(runtimeConfig.public.API_BASE_URL)
+        
+        _.each(form,(value,field)=>{
+            _.isEmpty(value)?error.field='empty':''
+        })
+
+        if(!_.isEmpty(error.value))
+            return
         
         try {
             const user = await fetch(`${runtimeConfig.public.API_BASE_URL}/register`, {
@@ -81,9 +104,9 @@ import _ from 'lodash'
                     'Content-type': 'application/json; charset=UTF-8',
                 },
                 body: JSON.stringify({
-                    email: form.email,
-                    name: form.name,
-                    password: form.password
+                    email: form.email.value,
+                    name: form.name.value,
+                    password: form.password.value
                 })
             })
             .then( res => res.json())
