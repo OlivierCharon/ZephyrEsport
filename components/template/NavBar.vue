@@ -1,5 +1,5 @@
 <template>
-    <header class="sticky top-0 z-50 items-center shadow-md">
+    <header class="sticky top-0 z-40 items-center shadow-md">
         <nav
             class="flex lg:items-center justify-between flex-col bg-zpr_pink-900 dark:bg-zpr_purple-900 shadow-md sticky w-full border-b lg:flex-row border-zpr_purple-900 lg:h-fit"
             :class="{ 'h-screen': showMobileMenu }"
@@ -77,7 +77,7 @@
                 </nuxt-link>
             </div>
             <div
-                v-if="!connected"
+                v-if="!user"
                 class="space-x-[1vw] h-fit p-4 lg:inline-block text-center text-lg"
                 :class="{ hidden: !showMobileMenu }"
             >
@@ -91,22 +91,27 @@
             </div>
             <div
                 v-else
-                class="space-x-[1vw] h-fit p-4 lg:inline-block text-center text-lg"
+                class="lg:inline-block mx-4 text-center text-lg"
                 :class="{ hidden: !showMobileMenu }"
             >
-                <nuxt-link
-                    v-if="admin"
-                    to="/admin"
-                    class="inline-block text-sm px-4 py-2 leading-none border rounded whitespace-nowrap text-zpr_purple-second border-white hover:text-zpr_pink-second mt-4 lg:mt-0 uppercase w-36"
-                >
-                    Espace admin
-                </nuxt-link>
-                <nuxt-link
-                    to="/sign-in"
-                    class="inline-block text-sm py-2 leading-none border rounded whitespace-nowrap text-zpr_pink-900 border-white hover:border-transparent hover:text-zpr_purple-900 bg-white mt-4 lg:mt-0 uppercase w-36"
-                >
-                    Espace membre
-                </nuxt-link>
+                <div class="space-x-[1vw] m-2">
+                    <nuxt-link
+                        v-if="admin"
+                        to="/admin"
+                        class="inline-block text-sm px-4 py-2 leading-none border rounded whitespace-nowrap text-zpr_purple-second border-white hover:text-zpr_pink-second mt-4 lg:mt-0 uppercase w-36"
+                    >
+                        Espace admin
+                    </nuxt-link>
+                    <nuxt-link
+                        to="/sign-in"
+                        class="inline-block text-sm py-2 leading-none border rounded whitespace-nowrap text-zpr_pink-900 border-white hover:border-transparent hover:text-zpr_purple-900 bg-white mt-4 lg:mt-0 uppercase w-36"
+                    >
+                        {{ user.name }}
+                    </nuxt-link>
+                </div>
+                <div class="text-xs">
+                    <nuxt-link to="/" @click.prevent="logout">Se déconnecter</nuxt-link>
+                </div>
             </div>
         </nav>
     </header>
@@ -118,12 +123,39 @@
 </template>
 
 <script setup>
+    import { useToast } from "vue-toastification";
     import LoginModal from './LoginModal.vue';
     import SigninModal from './SigninModal.vue';
+    
+    const router = useRouter()
+    const toast = useToast()
+    const runtimeConfig = useRuntimeConfig()
     const showMobileMenu = ref(false);
-    const connected = ref(false);
     const admin = ref(true);
     const popup = ref(null);
+    const token = useCookie("XSRF-TOKEN");
+    
+    const { data: user} = await useFetch(`${runtimeConfig.public.API_BASE_URL}/user`, {
+        credentials: 'include',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            'X-XSRF-TOKEN': JSON.stringify(token.value),
+        },
+        server: false
+    })
+    
+    const logout = async ()=>{
+        await useFetch(`${runtimeConfig.public.API_BASE_URL}/logout`, {
+            credentials: 'include',
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'X-XSRF-TOKEN': JSON.stringify(token.value),
+            }
+        })
+        toast.warning('Déconnecté')
+        setTimeout(()=>router.go(),3000)
+    }
 </script>
 
 <style scoped>
