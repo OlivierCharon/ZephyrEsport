@@ -81,7 +81,14 @@ import _ from 'lodash'
                 credentials: 'include',
             });
             
-            const token = useCookie("XSRF-TOKEN");
+            const token = useCookie("XSRF-TOKEN",{
+                    sameSite: 'none',
+                    secure: true,
+                });
+            const userCookie = useCookie("user",{
+                    sameSite: 'none',
+                    secure: true,
+                });
             
             await useFetch(`${runtimeConfig.public.API_BASE_URL}/login`, {
                 credentials: "include",
@@ -96,6 +103,7 @@ import _ from 'lodash'
                     password: form.value.password
                 }),
                 onResponse({response}) {
+                    userCookie.value = {...response._data.user??null}
                     toast.success(`Bienvenue, ${response._data.user.name}!`)
                     setTimeout(() => {
                         router.go()

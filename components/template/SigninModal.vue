@@ -117,7 +117,14 @@ const createUser = async () => {
             // headers
         });
         
-        const token = useCookie("XSRF-TOKEN");
+        const token = useCookie("XSRF-TOKEN",{
+                sameSite: 'none',
+                secure: true,
+            });
+        const userCookie = useCookie('user',{
+                sameSite: 'none',
+                secure: true,
+            });
         
         const {data} = await useFetch(`${runtimeConfig.public.API_BASE_URL}/register`, {
             credentials: "include",
@@ -134,8 +141,10 @@ const createUser = async () => {
             }),
             onResponse({response}){
                 if(response._data.success){
+
                     toast.success(response._data.message)
                     setTimeout(() => {
+                        userCookie.value = {...response._data.user??null}
                         router.go()
                     }, 3000);
                 } else {

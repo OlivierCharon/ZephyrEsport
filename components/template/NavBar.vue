@@ -77,7 +77,7 @@
                 </nuxt-link>
             </div>
             <div
-                v-if="!user"
+                v-if="!user.name"
                 class="space-x-[1vw] h-fit p-4 lg:inline-block text-center text-lg"
                 :class="{ hidden: !showMobileMenu }"
             >
@@ -133,15 +133,25 @@
     const showMobileMenu = ref(false);
     const admin = ref(true);
     const popup = ref(null);
-    const token = useCookie("XSRF-TOKEN");
+    const token = useCookie("XSRF-TOKEN",{
+        sameSite: 'none',
+        secure: true,
+    });
+    const user = useCookie("user",{
+        sameSite: 'none',
+        secure: true,
+    });
     
-    const { data: user} = await useFetch(`${runtimeConfig.public.API_BASE_URL}/user`, {
+    await useFetch(`${runtimeConfig.public.API_BASE_URL}/user`, {
         credentials: 'include',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
             'X-XSRF-TOKEN': JSON.stringify(token.value),
         },
-        server: false
+        server: false,
+        onResponse({response}){
+            user.value = {...response._data.user??null}
+        }
     })
     
     const logout = async ()=>{
