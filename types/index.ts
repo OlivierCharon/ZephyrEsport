@@ -37,4 +37,18 @@ declare global {
         currentPage: number;
         lastPage: number;
     }
+
+    interface User {
+        id: number|null;
+        email: string;
+        name: string;
+        password: string;
+        img: string|null;
+        isAdmin: boolean;
+    }
+
+    interface Credentials {
+        login: string;
+        password: string;
+    }
 }

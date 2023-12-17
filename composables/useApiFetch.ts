@@ -1,23 +1,21 @@
 import type { UseFetchOptions } from "nuxt/app";
+import { useCookieFetch } from "./useCookieFetch";
 
-export function useApiFetch(route:string,options: UseFetchOptions = {}){
+export async function useApiFetch<T>(route:string,options: UseFetchOptions<T> = {}){
+
     const runtimeConfig = useRuntimeConfig()
     let headers: any = {}
-    const token = useCookie("XSRF-TOKEN",{
-        sameSite: 'none',
-        secure: true,
-    });
+    const token = useCookieFetch('XSRF-TOKEN')
 
-    headers['content-type'] = 'application/json; charset=UTF-8'
-    headers['X-XSRF-TOKEN'] = token?.value as string
-
+    token.value?headers['X-XSRF-TOKEN'] = token.value as string:''
     return useFetch(`${runtimeConfig.public.API_BASE_URL}/${route}`, {
         credentials: "include",
         watch: false,
+        ...options,
         headers: {
+            'Content-type': 'application/json; charset=UTF-8',
             ...headers,
             ...options?.headers
         },
-        ...options
     })
 }

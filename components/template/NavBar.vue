@@ -77,7 +77,7 @@
                 </nuxt-link>
             </div>
             <div
-                v-if="!user.name"
+                v-if="!auth.user"
                 class="space-x-[1vw] h-fit p-4 lg:inline-block text-center text-lg"
                 :class="{ hidden: !showMobileMenu }"
             >
@@ -106,7 +106,7 @@
                         to="/sign-in"
                         class="inline-block text-sm py-2 leading-none border rounded whitespace-nowrap text-zpr_pink-900 border-white hover:border-transparent hover:text-zpr_purple-900 bg-white mt-4 lg:mt-0 uppercase w-36"
                     >
-                        {{ user.name }}
+                        {{ auth.user.name }}
                     </nuxt-link>
                 </div>
                 <div class="text-xs">
@@ -127,42 +127,15 @@
     import LoginModal from './LoginModal.vue';
     import SigninModal from './SigninModal.vue';
     
+    const auth = useAuthStore()
     const router = useRouter()
     const toast = useToast()
-    const runtimeConfig = useRuntimeConfig()
     const showMobileMenu = ref(false);
     const admin = ref(true);
     const popup = ref(null);
-    const token = useCookie("XSRF-TOKEN",{
-        sameSite: 'none',
-        secure: true,
-    });
-    const user = useCookie("user",{
-        sameSite: 'none',
-        secure: true,
-    });
-    
-    await useFetch(`${runtimeConfig.public.API_BASE_URL}/user`, {
-        credentials: 'include',
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-            'X-XSRF-TOKEN': JSON.stringify(token.value),
-        },
-        server: false,
-        onResponse({response}){
-            user.value = {...response._data.user??null}
-        }
-    })
-    
+        
     const logout = async ()=>{
-        await useFetch(`${runtimeConfig.public.API_BASE_URL}/logout`, {
-            credentials: 'include',
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'X-XSRF-TOKEN': JSON.stringify(token.value),
-            }
-        })
+        await useApiFetch('logout', {method: 'DELETE'})
         toast.warning('Déconnecté')
         setTimeout(()=>router.go(),3000)
     }

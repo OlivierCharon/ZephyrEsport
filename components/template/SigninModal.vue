@@ -67,96 +67,65 @@
 </template>
 
 <script setup>
-import { useToast } from "vue-toastification";
-import _ from 'lodash'
+    import { useToast } from "vue-toastification";
+    import _ from 'lodash'
+    const auth = useAuthStore()
+    const userCookie = useCookieFetch("user")
+    const router = useRouter()
+    const toast = useToast()
+    // const toastError = ref(null)
 
-const router = useRouter()
-const runtimeConfig = useRuntimeConfig()
-const toast = useToast()
-
-const form = ref({
-    email: null,
-    name: null,
-    password: null,        
-    pwdCheck: null,
-})
-
-const error = ref({
-    email: null,
-    name: null,
-    password: null,        
-    pwdCheck: null,
-})
-
-const createUser = async () => {
-    // console.log(runtimeConfig.public.API_BASE_URL)
-    error.value = {
+    const form = ref({
         email: null,
         name: null,
-        password: null,
+        password: null,        
         pwdCheck: null,
-    }
-    
-    _.each(form.value,(value,field)=>{
-        _.isEmpty(value)?error.value[field]='Ce champs est obligatoire':''
     })
-    
-    form.value.password === form.value.pwdCheck?'':error.value.pwdCheck='Les mots de passe ne correspondent pas' 
-    
-    // If we got any error, we stop the submition
-    if(!_.isEmpty(_.filter(error.value, (field) => field != null )))
-        return
-    
-    try {
-        // const headers = useRequestHeaders(['cookie'])
-        // CSRF
-        await useFetch(`${runtimeConfig.public.API_BASE_URL}/csrf-cookie`, {
-            method: 'GET',
-            headers: {},
-            credentials: 'include',
-            // headers
-        });
-        
-        const token = useCookie("XSRF-TOKEN",{
-                sameSite: 'none',
-                secure: true,
-            });
-        const userCookie = useCookie('user',{
-                sameSite: 'none',
-                secure: true,
-            });
-        
-        const {data} = await useFetch(`${runtimeConfig.public.API_BASE_URL}/register`, {
-            credentials: "include",
-            method: 'POST',
-            watch: false,
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'X-XSRF-TOKEN': JSON.stringify(token.value),
-            },
-            body: JSON.stringify({
-                email: form.value.email,
-                name: form.value.name,
-                password: form.value.password
-            }),
-            onResponse({response}){
-                if(response._data.success){
 
-                    toast.success(response._data.message)
-                    setTimeout(() => {
-                        userCookie.value = {...response._data.user??null}
-                        router.go()
-                    }, 3000);
-                } else {
-                    _.each(response._data.errorList,(error) => toast.error(error[0]))
-                }
-            }
+    const error = ref({
+        email: null,
+        name: null,
+        password: null,        
+        pwdCheck: null,
+    })
+
+    const createUser = async () => {
+        error.value = {
+            email: null,
+            name: null,
+            password: null,
+            pwdCheck: null,
+        }
+        
+        _.each(form.value,(value,field)=>{
+            _.isEmpty(value)?error.value[field]='Ce champs est obligatoire':''
         })
+        
+        form.value.password === form.value.pwdCheck?'':error.value.pwdCheck='Les mots de passe ne correspondent pas' 
+        
+        // If we got any error, we stop the submition
+        if(!_.isEmpty(_.filter(error.value, (field) => field != null )))
+            return
+        
+        try {
+            const {data} = await auth.signin(form.value)
+            console.log(data.value.success)
+            if(data.value.success){
+                toast.success(data.value.message)
+                setTimeout(() => {
+                    userCookie.value = {...data.value.user??null}
+                    router.go()
+                }, 3000);
+            } else {
+                // toastError.value = null
+                // _.each(data.value.errorList,(apiError) => _.each(error.value,(errorType) => apiError.toLowerCase().includes(errorType.toLowerCase())?error.value[errorType.toLowerCase()] = 'Ce champs doit être renseigné correctement':''))
+                toast.error('Merci de vérifier les données renseignées')
+            }
+        }
+        catch(error) {
+            console.warn(error)
+        }
     }
-    catch(error) {
-        console.warn(error)
-    }
-}
 </script>
 
 <style scoped>
