@@ -108,12 +108,11 @@
             return
         
         try {
-            const {data} = await auth.signin(form.value)
-            console.log(data.value.success)
-            if(data.value.success){
-                toast.success(data.value.message)
+            const response = await auth.signin(form.value)
+            if(response.success){
+                toast.success(response.message)
                 setTimeout(() => {
-                    userCookie.value = {...data.value.user??null}
+                    userCookie.value = {...response.user??null}
                     router.go()
                 }, 3000);
             } else {

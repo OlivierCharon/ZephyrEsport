@@ -8,6 +8,12 @@ export async function useApiFetch<T>(route:string,options: UseFetchOptions<T> = 
     const token = useCookieFetch('XSRF-TOKEN')
 
     token.value?headers['X-XSRF-TOKEN'] = token.value as string:''
+
+    process.server?headers={
+        ...headers,
+        ...useRequestHeaders(["referer", "cookie"])
+    }:''
+
     return useFetch(`${runtimeConfig.public.API_BASE_URL}/${route}`, {
         credentials: "include",
         watch: false,

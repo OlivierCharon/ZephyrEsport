@@ -72,8 +72,6 @@
         
         try {
             const {data}:any = await auth.login(form.value)
-            
-            console.log(error)
 
             if(data.value.user){
                 toast.success(`Bienvenue, ${auth.user.name}!`)

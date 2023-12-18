@@ -15,7 +15,7 @@
   "dependencies": {
     "@nuxt/image": "^1.0.0",
     "@nuxtjs/tailwindcss": "^6.7.0",
-    "@pinia/nuxt": "^0.4.11",
+    "@pinia/nuxt": "^0.5.1",
     "dayjs-nuxt": "^1.1.2",
     "imagekit": "^4.1.3",
     "nuxt-lodash": "^2.5.3",

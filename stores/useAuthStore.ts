@@ -1,25 +1,26 @@
-import type { CookieOptions } from "nuxt/app";
-
 export const useAuthStore = defineStore("authStore", () => {
     
     // DATA
     const user = ref<User|null>(null)
-    const userCookie:any = useCookieFetch('user')
+    const isLoggedIn = computed<boolean>(() => !!user.value)
 
      // GET CURRENT USER
-    async function currentUser(){
-
-        return await useApiFetch("user");
+    async function fetchUser(){
+        const {data}:any = await useApiFetch("user");
+        user.value = data.value as User;
     }
 
     // SIGNIN
     async function signin(user: User){
         await useApiFetch("csrf-cookie");
         
-        return await useApiFetch("register",{
+        const {data}:any = await useApiFetch("register",{
             method: 'POST',
             body: user,
         });
+        data.value.success?await fetchUser():''
+
+        return data.value
     }
     
     // LOGIN
@@ -31,29 +32,16 @@ export const useAuthStore = defineStore("authStore", () => {
             body: credentials,
         });
 
-        const {data} =  await currentUser();
-        const userCookie = useCookieFetch('user')
-
-        user.value = data.value.user as User;
-        userCookie.value = data.value.user as User;
+        await fetchUser()
 
         return login;
     }
     
     // LOGOUT
     async function logout(){
-        const token:any = await useApiFetch("csrf-cookie");
-
-        await useApiFetch("logout",{
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-                'X-XSRF-TOKEN': JSON.stringify(token.value),
-            }
-        });
-        token.value = null;
-        userCookie.value = null
+        await useApiFetch("logout",{method: 'DELETE'});
+        user.value = null
     }
 
-    return { user, signin, login, logout, currentUser };
+    return { user, isLoggedIn, signin, login, logout, fetchUser };
 });

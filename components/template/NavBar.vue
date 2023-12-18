@@ -77,7 +77,7 @@
                 </nuxt-link>
             </div>
             <div
-                v-if="!auth.user"
+                v-if="!auth.isLoggedIn"
                 class="space-x-[1vw] h-fit p-4 lg:inline-block text-center text-lg"
                 :class="{ hidden: !showMobileMenu }"
             >
@@ -135,7 +135,7 @@
     const popup = ref(null);
         
     const logout = async ()=>{
-        await useApiFetch('logout', {method: 'DELETE'})
+        await auth.logout()
         toast.warning('Déconnecté')
         setTimeout(()=>router.go(),3000)
     }
