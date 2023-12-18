@@ -1,8 +1,9 @@
+import _ from 'lodash'
 export const useArticlesStore = defineStore("articlesStore", () => {
     const conf = useRuntimeConfig();
 
     // DATA: ARTICLES
-    const articlesList: Ref<Articles> = ref([]);
+    const articlesList: Ref<Articles> = computed(()=> await fetchArticles());
     const pagination: Ref<Pagination> = ref({
         currentPage: 1,
         lastPage: 1,
@@ -14,33 +15,30 @@ export const useArticlesStore = defineStore("articlesStore", () => {
         page: number = 1
     ) => {
         try {
-            await useFetch(`${conf.public.API_BASE_URL}/posts`, {
+            await useApiFetch(`posts`, {
                 query: {
                     perPage: perPage,
                     page: page,
                 },
-                transform: (response: fetchArticles) => {
-                    articlesList.value = [];
-                    for (const fetchedArticle of response.data) {
-                        const currentArticle: Article = {
-                            id: fetchedArticle.id,
-                            title: fetchedArticle.title,
-                            img: fetchedArticle.img,
-                            txt: fetchedArticle.txt,
-                            createdAt: fetchedArticle.created_at,
-                            updatedAt: fetchedArticle.updated_at,
-                        };
-                        articlesList.value.push(currentArticle);
-                    }
-                    pagination.value = {
-                        currentPage: response.current_page,
-                        lastPage: response.last_page,
-                    };
-                },
+                // transform: (response: fetchArticles) => {
+                //     _.each(response.data,(article) => {
+                //         articlesList.value.push({
+                //             id: article.id,
+                //             title: article.title,
+                //             img: article.img,
+                //             txt: article.txt,
+                //             createdAt: article.created_at,
+                //             updatedAt: article.updated_at,
+                //         })
+                //     }) 
+                //     pagination.value = {
+                //         currentPage: response.current_page,
+                //         lastPage: response.last_page,
+                //     };
+                // },
             });
         } catch (error) {
-            alert(error);
-            console.log(error);
+            console.error(error);
         }
     };
 

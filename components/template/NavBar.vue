@@ -97,7 +97,7 @@
                 <div class="space-x-[1vw] m-2">
                     <nuxt-link
                         v-if="admin"
-                        to="/admin"
+                        to="/article"
                         class="inline-block text-sm px-4 py-2 leading-none border rounded whitespace-nowrap text-zpr_purple-second border-white hover:text-zpr_pink-second mt-4 lg:mt-0 uppercase w-36"
                     >
                         Espace admin
@@ -137,7 +137,7 @@
     const logout = async ()=>{
         await auth.logout()
         toast.warning('Déconnecté')
-        setTimeout(()=>router.go(),3000)
+        // setTimeout(()=>router.go(),3000)
     }
 </script>
 

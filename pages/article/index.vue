@@ -1,16 +1,13 @@
 <template>
-    <div>
-        <h1>Admin page</h1>
-        <NewsArticles />
+    <div class="flex text-center justify-center space-x-10 m-16">
+        lite d'articles
     </div>
 </template>
 
 <script setup>
 const articlesStore = useArticlesStore();
-const { fetchArticles } = articlesStore;
-onMounted(() => {
-    fetchArticles("all");
-});
+const {data} = articlesStore.fetchArticles()
+console.log(data)
 definePageMeta({
     layout: 'admin'
 })

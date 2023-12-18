@@ -1,7 +1,7 @@
 <template>
     <div class="bg-[rgb(0,0,0)] bg-[rgba(0,0,0,0.4)] fixed z-50 left-0 top-0 w-full h-full overflow-auto">
         <div  class="flex items-center justify-center rounded-lg w-2/5 bg-slate-50 m-auto p-3 border-2 border-l-gray-300 border-solid text-center flex-col absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <span class="text-gray-400 text-3xl ml-auto mr-2 font-bold leading-none hover:text-gray-900 focus:text-gray-900 hover:cursor-pointer focus:cursor-pointer fade-transition duration-150" @click="$emit('closeModal')">&times;</span>
+            <span class="text-gray-400 text-3xl ml-auto mr-2 font-bold leading-none hover:text-gray-900 focus:text-gray-900 hover:cursor-pointer focus:cursor-pointer fade-transition duration-150" @click="emit('close-modal')">&times;</span>
             <form class="w-full px-20 p-2 relative mb-5" @submit.prevent="login" data-form-type=”login” >
                 <h2 class="block text-gray-700 text-lg font-bold mb-8 uppercase">Se connecter</h2>
                 <div class="md:flex md:items-center mb-6 flex space-x-6">
@@ -45,7 +45,8 @@
     const auth:any = useAuthStore()
     const router = useRouter()
     const toast = useToast()
-    
+    const emit = defineEmits(['close-modal'])
+
     const form:any = ref({
         login: null,
         password: null
@@ -75,9 +76,10 @@
 
             if(data.value.user){
                 toast.success(`Bienvenue, ${auth.user.name}!`)
-                setTimeout(() => {
-                    router.go()
-                }, 3000);
+                emit('close-modal')
+                // setTimeout(() => {
+                //     router.go()
+                // }, 3000);
             } else {
                 toast.error('Identifiants incorrectes')
             }

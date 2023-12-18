@@ -6,8 +6,8 @@ export const useAuthStore = defineStore("authStore", () => {
 
      // GET CURRENT USER
     async function fetchUser(){
-        const {data}:any = await useApiFetch("user");
-        user.value = data.value as User;
+        const {data} = await useApiFetch("user");
+        user.value = data.value.user as User;
     }
 
     // SIGNIN

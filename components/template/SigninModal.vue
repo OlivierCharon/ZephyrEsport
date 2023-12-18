@@ -74,6 +74,7 @@
     const router = useRouter()
     const toast = useToast()
     // const toastError = ref(null)
+    const emit = defineEmits(['close-modal'])
 
     const form = ref({
         email: null,
@@ -111,10 +112,11 @@
             const response = await auth.signin(form.value)
             if(response.success){
                 toast.success(response.message)
-                setTimeout(() => {
-                    userCookie.value = {...response.user??null}
-                    router.go()
-                }, 3000);
+                emit('close-modal')
+                // setTimeout(() => {
+                //     userCookie.value = {...response.user??null}
+                //     router.go()
+                // }, 3000);
             } else {
                 // toastError.value = null
                 // _.each(data.value.errorList,(apiError) => _.each(error.value,(errorType) => apiError.toLowerCase().includes(errorType.toLowerCase())?error.value[errorType.toLowerCase()] = 'Ce champs doit être renseigné correctement':''))
