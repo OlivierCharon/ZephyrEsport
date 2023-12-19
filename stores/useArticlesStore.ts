@@ -3,11 +3,11 @@ export const useArticlesStore = defineStore("articlesStore", () => {
     const conf = useRuntimeConfig();
 
     // DATA: ARTICLES
-    const articlesList: Ref<Articles> = computed(()=> await fetchArticles());
     const pagination: Ref<Pagination> = ref({
         currentPage: 1,
         lastPage: 1,
     });
+    const articlesList = computed(() => fetchArticles());
 
     // GET ALL ARTICLES
     const fetchArticles = async (
@@ -15,7 +15,7 @@ export const useArticlesStore = defineStore("articlesStore", () => {
         page: number = 1
     ) => {
         try {
-            await useApiFetch(`posts`, {
+            const {data} = await useApiFetch(`posts`, {
                 query: {
                     perPage: perPage,
                     page: page,
@@ -37,6 +37,9 @@ export const useArticlesStore = defineStore("articlesStore", () => {
                 //     };
                 // },
             });
+            console.log('response fetch articles')
+            console.log(data)
+            return data
         } catch (error) {
             console.error(error);
         }
@@ -70,10 +73,9 @@ export const useArticlesStore = defineStore("articlesStore", () => {
     };
 
     // GET ONE ARTICLE
-    const getArticle = computed(async (id: number) => {
+    const getArticle = async (id: number) => {
         try {
-            const { data: article } = await useFetch(
-                `${conf.public.API_BASE_URL}/post/${id}`,
+            const { data: article } = await useApiFetch(`post/${id}`,
                 {
                     transform: (fetchedArticle: getArticle) => {
                         return {
@@ -92,7 +94,7 @@ export const useArticlesStore = defineStore("articlesStore", () => {
             alert(error);
             console.log(error);
         }
-    });
+    }
 
     return { articlesList, pagination, fetchArticles, seeMore, getArticle };
 });
