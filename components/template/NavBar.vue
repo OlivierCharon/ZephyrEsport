@@ -128,7 +128,6 @@
     import SigninModal from './SigninModal.vue';
     
     const auth = useAuthStore()
-    const router = useRouter()
     const toast = useToast()
     const showMobileMenu = ref(false);
     const admin = ref(true);

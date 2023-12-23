@@ -43,7 +43,6 @@
     import { useToast } from "vue-toastification";
     import _ from 'lodash'
     const auth:any = useAuthStore()
-    const router = useRouter()
     const toast = useToast()
     const emit = defineEmits(['close-modal'])
 
@@ -77,9 +76,6 @@
             if(data.value.user){
                 toast.success(`Bienvenue, ${auth.user.name}!`)
                 emit('close-modal')
-                // setTimeout(() => {
-                //     router.go()
-                // }, 3000);
             } else {
                 toast.error('Identifiants incorrectes')
             }

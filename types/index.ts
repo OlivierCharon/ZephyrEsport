@@ -2,12 +2,12 @@ export {};
 
 declare global {
     interface Article {
-        id: number;
+        id: number|null;
         title: string;
         img: string;
         txt: string;
-        createdAt: Date;
-        updatedAt: Date;
+        createdAt: Date|null;
+        updatedAt: Date|null;
     }
 
     type Articles = Article[];
