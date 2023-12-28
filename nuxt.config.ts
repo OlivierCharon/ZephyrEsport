@@ -5,6 +5,7 @@ export default defineNuxtConfig({
         "@nuxt/image",
         "dayjs-nuxt",
         "nuxt-lodash",
+        'nuxt-icon',
         [
             "@pinia/nuxt",
             {

@@ -1,8 +1,8 @@
 export {};
 
 declare global {
-    interface Article {
-        id: number|null;
+    interface Post {
+        id: number;
         title: string;
         img: string;
         txt: string;
@@ -10,17 +10,17 @@ declare global {
         updatedAt: Date|null;
     }
 
-    type Articles = Article[];
+    type Posts = Post[];
 
-    interface fetchArticles {
+    interface fetchPosts {
         status: number;
         message: string;
         current_page: number;
         last_page: number;
-        data: Articles;
+        data: Posts;
     }
 
-    interface getArticle {
+    interface getPost {
         status: number;
         message: string;
         data: {

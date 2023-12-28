@@ -116,16 +116,14 @@
         </nav>
     </header>
     <teleport to='body'>
-        <LoginModal v-if="popup === 'login'" @close-modal="popup = null" class="fade-transition duration-700" />
-        <SigninModal v-if="popup === 'signin'" @close-modal="popup = null" />
+        <AccountLogIn v-if="popup === 'login'" @close-modal="popup = null" class="fade-transition duration-700" />
+        <AccountSignIn v-if="popup === 'signin'" @close-modal="popup = null" />
     </teleport>
     
 </template>
 
 <script setup>
     import { useToast } from "vue-toastification";
-    import LoginModal from './LoginModal.vue';
-    import SigninModal from './SigninModal.vue';
     
     const auth = useAuthStore()
     const toast = useToast()

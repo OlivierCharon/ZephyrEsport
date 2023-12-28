@@ -19,3 +19,4 @@ logs
 
 .gitsecret/keys/random_seed
 install_nvm.sh
+.vscode/
